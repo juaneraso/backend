@@ -22,7 +22,7 @@ promiseA
     return "La anterior se resolvio";
   })
   .catch((error) => {
-    throw "Se rechazo";
+    throw "Se rechazo 5"; // Se rechaza
   })
   .then((value) => console.log(value))
   .then()
