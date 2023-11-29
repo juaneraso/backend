@@ -1,7 +1,10 @@
 const express = require("express");
 const morgan = require("morgan");
+const mainRouter = require("./routes/routes");
 
 const server = express();
+
+// La request pasa por el middleware que creamos , luego por morgan y luego por el enrutador
 
 server.use((req, res, next) => {
   // middleware
@@ -12,12 +15,6 @@ server.use((req, res, next) => {
 
 server.use(morgan("dev"));
 
-server.get("/", (req, res) => {
-  res.status(200).json({ message: "Hola mundo" });
-});
-
-server.get("/api", (req, res) => {
-  res.status(200).send("Estamos en API");
-});
+server.use(mainRouter);
 
 module.exports = server;
