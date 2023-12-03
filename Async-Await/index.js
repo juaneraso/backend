@@ -1,16 +1,5 @@
-const axios = require("axios");
+const server = require("./src/server");
 
-// axios
-//   .get("https://jsonplaceholder.typicode.com/users")
-//   .then((res) => console.log(res.data));
-
-// console.log("Fin");
-
-const miFuncion = async () => {
-  const response = await axios.get(
-    "https://jsonplaceholder.typicode.com/users"
-  );
-  console.log(response);
-};
-
-miFuncion();
+server.listen(3001, () => {
+  console.log("Servidor corriendo en el puerto 3001");
+});
