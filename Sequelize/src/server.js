@@ -4,6 +4,9 @@ const findAllEpisodes = require("./controllers/findAllEpisodes");
 const createEpisode = require("./controllers/createEpisode");
 const createCharacter = require("./controllers/createCharacter");
 const findAllCharacters = require("./controllers/findAllCharacters");
+const findCharacterById = require("./controllers/findCharacterById");
+const deleteCharacter = require("./controllers/deleteCharacter");
+const createdBulkEpisodes = require("./controllers/createBulkEpisodes");
 const server = express();
 
 server.use(express.json());
@@ -18,6 +21,16 @@ server.get("/character", async (req, res) => {
       : await findAllCharacters();
 
     res.status(200).json(characters);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+server.get("/character/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const character = await findCharacterById(id);
+    res.status(200).json(character);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -54,6 +67,22 @@ server.post("/episode", async (req, res) => {
     const { name } = req.body;
     const newEpisode = await createEpisode(name);
     res.status(201).json(newEpisode);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+server.post("/episode/bulk", async (req, res) => {
+  const { episodes } = req.body;
+  const created = await createdBulkEpisodes(episodes);
+  res.status(200).json({ response: "created" });
+});
+
+server.delete("/character/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedCharacter = await deleteCharacter(id);
+    res.status(200).json(deletedCharacter);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
