@@ -3,28 +3,17 @@ const morgan = require("morgan");
 const findAllEpisodes = require("./controllers/findAllEpisodes");
 const createEpisode = require("./controllers/createEpisode");
 const createCharacter = require("./controllers/createCharacter");
-const findAllCharacters = require("./controllers/findAllCharacters");
 const findCharacterById = require("./controllers/findCharacterById");
 const deleteCharacter = require("./controllers/deleteCharacter");
 const createdBulkEpisodes = require("./controllers/createBulkEpisodes");
+
+const getCharacterHandler = require("./handlers/CharacterHandler");
 const server = express();
 
 server.use(express.json());
 server.use(morgan("dev")); // middlware morgan
 
-server.get("/character", async (req, res) => {
-  const { status } = req.query; //Alive Dead Unknow Undefined
-
-  try {
-    const characters = status
-      ? await findAllCharacters({ status })
-      : await findAllCharacters();
-
-    res.status(200).json(characters);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+server.get("/character", getCharacterHandler);
 
 server.get("/character/:id", async (req, res) => {
   try {
