@@ -23,8 +23,12 @@ const postEpisodesHandler = async (req, res) => {
 
 const postBulkEpisodesHandler = async (req, res) => {
   const { episodes } = req.body;
-  const created = await createBulkEpisodes(episodes);
-  res.status(200).json({ response: "created" });
+  try {
+    const created = await createBulkEpisodes(episodes);
+    res.status(200).json({ response: created });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 module.exports = {
